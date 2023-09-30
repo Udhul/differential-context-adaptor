@@ -1,7 +1,7 @@
 # Differential Context Adaptor
 Toolset for Agent-Based LLM inference with high context specificity
 
-**Planned Features and Capabilities**
+## Planned Features and Capabilities
 - Input digester
   - Main: Text & Code
   - Format conversion and equalization
@@ -26,3 +26,12 @@ Toolset for Agent-Based LLM inference with high context specificity
 - Feature retriever
   - Retrieve and use previously digested information in order to provide assistance within that context
   - ai-agents can retrieve varrious entries and vector embeddings, such that they take on roles of specialists in various parts of the context-material
+
+## References & RelatedFrameworks
+- [Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)
+- [OpenBMB/ChatDev](https://github.com/OpenBMB/ChatDev)
+- [daveshap/ACE_Framework](https://github.com/daveshap/ACE_Framework)
+- [microsoft/autogen](https://github.com/microsoft/autogen)
+- [langchain-ai/langchain](https://github.com/langchain-ai/langchain)
+- [openai/openai-cookbook](https://github.com/openai/openai-cookbook)
+- [facebookresearch/llama](https://github.com/facebookresearch/llama)
