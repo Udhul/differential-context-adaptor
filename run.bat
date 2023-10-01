@@ -1,7 +1,15 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: Initialize package manager command
+:: Setting default values for python version and venv directory
+set "python_version=3.10"
+set "venv_dir=.venv"
+
+:: Override default values if arguments are provided
+if not "%1" == "" set "python_version=%1"
+if not "%2" == "" set "venv_dir=%2"
+
+:: Initialize package manager commands
 set INSTALL_CMD = ""
 
 :: Check if already running through Conda or Mamba package managers
@@ -16,6 +24,7 @@ if %IS_CONDA% == 0 (
     set INSTALL_CMD=mamba
 )
 
+:: If running either conda or mamba, use the proper command to install requirements
 if not "%INSTALL_CMD%" == "" (
     echo Running in %INSTALL_CMD% environment, skipping venv setup.
     %INSTALL_CMD% install --file requirements.txt
@@ -26,33 +35,15 @@ if not "%INSTALL_CMD%" == "" (
     goto :skip_venv
 )
 
-:: Setting default values for python_version and venv directory
-set "python_version=3.10"
-set "venv_dir=.venv"
-
-:: Override default values if arguments are provided
-if not "%1" == "" set "python_version=%1"
-if not "%2" == "" set "venv_dir=%2"
-
-:: Check if venv directory exists
+:: Check if venv directory exists and Activate
 if exist "%venv_dir%\Scripts\python.exe" (
-    :: Activate the virtual environment and print out version
-    call "%venv_dir%\Scripts\activate"
-    py --version
     goto :run_venv
 ) else (
     goto :create_venv
 )
 
 :create_venv
-:: Use the py launcher for version flexibility, using the highest available patch in the specified version
-echo Creating a new virtual environment.
-py -%python_version% quit()
-if %ERRORLEVEL% neq 0 (
-    echo Python version %python_version% is not installed.
-    exit /b 1
-)
-:: Create the venv with the py launcher command to use the latest patch installad in the specified version
+:: Create the venv with the py launcher command to use the latest patch installed in the specified version
 py -%python_version% -m venv %venv_dir%
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to create virtual environment.
@@ -60,8 +51,9 @@ if %ERRORLEVEL% neq 0 (
 )
 
 :run_venv
-:: Activate the virtual environment
+:: Activate the virtual environment and print out version
 call "%venv_dir%\Scripts\Activate"
+py --version
 
 :: Check if pip is installed
 where /q pip
@@ -70,7 +62,7 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-:: Check if a virtual environment is activated
+:: Check if a virtual environment is activated before attempting to install packages
 if "%VIRTUAL_ENV%" == "" (
     echo Error: No virtual environment appears to be activated.
     exit /b 1
