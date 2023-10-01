@@ -78,9 +78,9 @@ if %ERRORLEVEL% neq 0 (
 :: If using conda/Mamba, start from here
 :skip_venv
 
-:: Call launch.py to set/check environment variables and launch the application
-python launch.py
+:: Call run.py to set/check environment variables and launch the application
+python run.py
 if %ERRORLEVEL% neq 0 (
-    echo Error: launch.py encountered an issue.
+    echo Error: run.py encountered an issue.
     exit /b 1
 )

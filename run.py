@@ -7,4 +7,4 @@ if env_path.exists():
     load_dotenv(env_path)
 
 # Launch Code ...
-print("Reached Launch")
+print("Reached run.py")
